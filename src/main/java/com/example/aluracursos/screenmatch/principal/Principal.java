@@ -36,6 +36,7 @@ public class Principal {
                     
                     1- Buscar series.
                     2- Buscaar episodios.
+                    3- Mostrar series buscadas.
                     
                     
                     0- Salir.
@@ -52,6 +53,9 @@ public class Principal {
                 case 2:
                     buscarEpisodioPorSerie();
                     break;
+                case 3:
+                    mostrarSeriesBuscadas();
+                    break;
                 case 0:
                     System.out.println("Cerrando aplicación...");
                     break;
@@ -64,6 +68,8 @@ public class Principal {
         }
 
     }
+
+
 
     private DatosSerie getDatosSerie(){
         System.out.println("Escribe el nombre de la serie que deseas buscar:");
@@ -96,9 +102,14 @@ public class Principal {
 
 
     private void buscarSerieWeb(){
+        DatosSerie datos = getDatosSerie();
+        datosSeries.add(datos);
+        System.out.println(datos);
 
+    }
 
-
+    private void mostrarSeriesBuscadas() {
+        datosSeries.forEach(System.out::println);
     }
 
 
