@@ -1,4 +1,4 @@
-package com.example.aluracursos.screenmatch.module;
+package com.aluracursos.screenmatch.module;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;

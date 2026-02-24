@@ -1,8 +1,5 @@
-package com.example.aluracursos.screenmatch.module;
+package com.aluracursos.screenmatch.module;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
-
-import java.util.Optional;
 import java.util.OptionalDouble;
 
 public class Serie {
@@ -27,11 +24,11 @@ public class Serie {
     @Override
     public String toString() {
         return
+                "genero=" + genero +
                 "titulo='" + titulo + '\'' +
                 ", totalDeTemporadas=" + totalDeTemporadas +
                 ", evaluacion=" + evaluacion +
                 ", poster='" + poster + '\'' +
-                ", genero=" + genero +
                 ", actores='" + actores + '\'' +
                 ", sinopsis='" + sinopsis + '\'';
     }

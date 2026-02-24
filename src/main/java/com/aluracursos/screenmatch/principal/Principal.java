@@ -1,15 +1,11 @@
-package com.example.aluracursos.screenmatch.principal;
+package com.aluracursos.screenmatch.principal;
 
-import com.example.aluracursos.screenmatch.module.DatosEpisodio;
-import com.example.aluracursos.screenmatch.module.DatosSerie;
-import com.example.aluracursos.screenmatch.module.DatosTemporadas;
-import com.example.aluracursos.screenmatch.module.Episodios;
-import com.example.aluracursos.screenmatch.service.ConsumoAPI;
-import com.example.aluracursos.screenmatch.service.ConvierteDatos;
+import com.aluracursos.screenmatch.module.DatosSerie;
+import com.aluracursos.screenmatch.module.DatosTemporadas;
+import com.aluracursos.screenmatch.module.Serie;
+import com.aluracursos.screenmatch.service.ConsumoAPI;
+import com.aluracursos.screenmatch.service.ConvierteDatos;
 
-import java.sql.SQLOutput;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -18,7 +14,7 @@ public class Principal {
     private Scanner sc = new Scanner(System.in);
     private ConsumoAPI consumoApi = new ConsumoAPI();
     private final String URL_BASE = "https://www.omdbapi.com/?t=";
-    private final String API_KEY = "&&apikey=fc717781";
+    private final String API_KEY = "&&apikey=" + System.getenv("API_KEY");
     private ConvierteDatos conversor = new ConvierteDatos();
     private List<DatosSerie> datosSeries = new ArrayList<>();
 
@@ -109,7 +105,14 @@ public class Principal {
     }
 
     private void mostrarSeriesBuscadas() {
-        datosSeries.forEach(System.out::println);
+        List<Serie> series = new ArrayList<>();
+        series = datosSeries.stream()
+                .map( d -> new Serie(d))
+                .collect(Collectors.toList());
+
+        series.stream()
+                .sorted(Comparator.comparing(Serie::getGenero))
+                .forEach(System.out::println);
     }
 
 

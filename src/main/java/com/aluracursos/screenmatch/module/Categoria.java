@@ -1,4 +1,4 @@
-package com.example.aluracursos.screenmatch.module;
+package com.aluracursos.screenmatch.module;
 
 public enum Categoria {
     ACCION("Action"),
