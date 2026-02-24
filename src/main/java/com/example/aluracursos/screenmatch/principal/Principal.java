@@ -1,0 +1,129 @@
+package com.example.aluracursos.screenmatch.principal;
+
+import com.example.aluracursos.screenmatch.module.DatosEpisodio;
+import com.example.aluracursos.screenmatch.module.DatosSerie;
+import com.example.aluracursos.screenmatch.module.DatosTemporadas;
+import com.example.aluracursos.screenmatch.module.Episodios;
+import com.example.aluracursos.screenmatch.service.ConsumoAPI;
+import com.example.aluracursos.screenmatch.service.ConvierteDatos;
+
+import java.sql.SQLOutput;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+import java.util.stream.Collectors;
+
+public class Principal {
+
+    private Scanner sc = new Scanner(System.in);
+    private ConsumoAPI consumoApi = new ConsumoAPI();
+    private final String URL_BASE = "https://www.omdbapi.com/?t=";
+    private final String API_KEY = "&&apikey=fc717781";
+    private ConvierteDatos conversor = new ConvierteDatos();
+    private List<DatosSerie> datosSeries = new ArrayList<>();
+
+
+
+
+    public void muestraElMenu() {
+
+        var opcion = -1;
+
+        while (opcion != 0) {
+
+            var menu = """
+                    MENU:
+                    
+                    1- Buscar series.
+                    2- Buscaar episodios.
+                    
+                    
+                    0- Salir.
+                    """;
+
+            System.out.println(menu);
+            opcion = sc.nextInt();
+            sc.nextLine();
+
+            switch (opcion) {
+                case 1:
+                    buscarSerieWeb();
+                    break;
+                case 2:
+                    buscarEpisodioPorSerie();
+                    break;
+                case 0:
+                    System.out.println("Cerrando aplicación...");
+                    break;
+                default:
+                    System.out.println("Opción inválida");
+
+            }
+
+
+        }
+
+    }
+
+    private DatosSerie getDatosSerie(){
+        System.out.println("Escribe el nombre de la serie que deseas buscar:");
+        String nombreSerie = sc.nextLine();
+        var json = consumoApi.obtenerDatos(URL_BASE + nombreSerie.replace(" ", "+") +
+                    API_KEY);
+        System.out.println(json);
+        DatosSerie datos = conversor.obtenerDatos(json, DatosSerie.class);
+
+        return datos;
+
+    }
+
+    private void buscarEpisodioPorSerie(){
+        DatosSerie datosSerie = getDatosSerie();
+        List<DatosTemporadas> temporadas = new ArrayList<>();
+
+        for (int i = 1; i <= datosSerie.totalDeTemporadas() ; i++) {
+
+            var json = consumoApi.obtenerDatos(URL_BASE + datosSerie.titulo().replace(" ", "+") + "&Season="+ i + API_KEY);
+
+            var datosTemporadas = conversor.obtenerDatos(json, DatosTemporadas.class);
+            temporadas.add(datosTemporadas);
+
+        }
+
+        temporadas.forEach(System.out::println);
+
+    }
+
+
+    private void buscarSerieWeb(){
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
